@@ -1,229 +1,146 @@
 {
     "pipeline": {
-        "pipeline_id": "Pipeline #2",
-        "inputs": [
-            {
-                "name": "input dataset"
-            }
-        ],
         "steps": [
             {
-                "primitive": {
-                    "python_path": "alpha_automl.primitives.preprocessing.RobustScaler",
-                    "name": "primitive"
-                },
-                "arguments": {
-                    "input0": {
-                        "data": "inputs.0"
-                    }
-                },
-                "outputs": [
-                    {
-                        "id": "produce"
-                    }
-                ],
-                "reference": {
-                    "type": "CONTAINER",
-                    "data": "steps.0.produce"
-                },
-                "hyperparams": {
-                    "with_centering": {
-                        "type": "VALUE",
-                        "data": "True"
-                    },
-                    "with_scaling": {
-                        "type": "VALUE",
-                        "data": "True"
-                    },
-                    "quantile_range": {
-                        "type": "VALUE",
-                        "data": "(25.0, 75.0)"
-                    },
-                    "unit_variance": {
-                        "type": "VALUE",
-                        "data": "False"
-                    },
-                    "copy": {
-                        "type": "VALUE",
-                        "data": "True"
-                    }
+                "name": "sklearn.preprocessing.RobustScaler",
+                "class_name": "sklearn.preprocessing._data.RobustScaler",
+                "params": {
+                    "copy": true,
+                    "quantile_range": [
+                        25.0,
+                        75.0
+                    ],
+                    "unit_variance": false,
+                    "with_centering": true,
+                    "with_scaling": true
                 }
             },
             {
-                "primitive": {
-                    "python_path": "alpha_automl.primitives.linear_model.LogisticRegression",
-                    "name": "primitive"
-                },
-                "arguments": {
-                    "input0": {
-                        "data": "steps.0.produce"
-                    }
-                },
-                "outputs": [
-                    {
-                        "id": "produce"
-                    }
-                ],
-                "reference": {
-                    "type": "CONTAINER",
-                    "data": "steps.1.produce"
-                },
-                "hyperparams": {
-                    "penalty": {
-                        "type": "VALUE",
-                        "data": "l2"
-                    },
-                    "dual": {
-                        "type": "VALUE",
-                        "data": "False"
-                    },
-                    "tol": {
-                        "type": "VALUE",
-                        "data": "0.0001"
-                    },
-                    "C": {
-                        "type": "VALUE",
-                        "data": "1.0"
-                    },
-                    "fit_intercept": {
-                        "type": "VALUE",
-                        "data": "True"
-                    },
-                    "intercept_scaling": {
-                        "type": "VALUE",
-                        "data": "1"
-                    },
-                    "class_weight": {
-                        "type": "VALUE",
-                        "data": "None"
-                    },
-                    "random_state": {
-                        "type": "VALUE",
-                        "data": "None"
-                    },
-                    "solver": {
-                        "type": "VALUE",
-                        "data": "lbfgs"
-                    },
-                    "max_iter": {
-                        "type": "VALUE",
-                        "data": "100"
-                    },
-                    "multi_class": {
-                        "type": "VALUE",
-                        "data": "auto"
-                    },
-                    "verbose": {
-                        "type": "VALUE",
-                        "data": "0"
-                    },
-                    "warm_start": {
-                        "type": "VALUE",
-                        "data": "False"
-                    },
-                    "n_jobs": {
-                        "type": "VALUE",
-                        "data": "None"
-                    },
-                    "l1_ratio": {
-                        "type": "VALUE",
-                        "data": "None"
-                    }
+                "name": "sklearn.linear_model.LogisticRegression",
+                "class_name": "sklearn.linear_model._logistic.LogisticRegression",
+                "params": {
+                    "C": 1.0,
+                    "class_weight": null,
+                    "dual": false,
+                    "fit_intercept": true,
+                    "intercept_scaling": 1,
+                    "l1_ratio": null,
+                    "max_iter": 100,
+                    "multi_class": "auto",
+                    "n_jobs": null,
+                    "penalty": "l2",
+                    "random_state": null,
+                    "solver": "lbfgs",
+                    "tol": 0.0001,
+                    "verbose": 0,
+                    "warm_start": false
                 }
             }
-        ],
-        "outputs": [
-            {
-                "data": "steps.1.produce"
-            }
-        ],
-        "pipeline_digest": "Pipeline #2",
-        "start": "2023-12-07T18:49:18.207324Z",
-        "end": "2023-12-07T18:49:18.258658Z",
-        "scores": [
-            {
-                "metric": {
-                    "metric": "accuracy_score"
-                },
-                "value": 0.7916666666666666,
-                "normalized": 0.7916666666666666
-            }
-        ],
-        "pipeline_source": {
-            "name": "Pipeline"
-        }
+        ]
     },
     "primitive_types": {
-        "alpha_automl.primitives.preprocessing.OneHotEncoder": "Categorical Encoder",
-        "alpha_automl.primitives.discriminant_analysis.LinearDiscriminantAnalysis": "Classifier",
-        "alpha_automl.primitives.discriminant_analysis.QuadraticDiscriminantAnalysis": "Classifier",
-        "alpha_automl.primitives.ensemble.BaggingClassifier": "Classifier",
-        "alpha_automl.primitives.ensemble.ExtraTreesClassifier": "Classifier",
-        "alpha_automl.primitives.ensemble.GradientBoostingClassifier": "Classifier",
-        "alpha_automl.primitives.ensemble.RandomForestClassifier": "Classifier",
-        "alpha_automl.primitives.naive_bayes.BernoulliNB": "Classifier",
-        "alpha_automl.primitives.naive_bayes.GaussianNB": "Classifier",
-        "alpha_automl.primitives.naive_bayes.MultinomialNB": "Classifier",
-        "alpha_automl.primitives.neighbors.KNeighborsClassifier": "Classifier",
-        "alpha_automl.primitives.linear_model.LogisticRegression": "Classifier",
-        "alpha_automl.primitives.linear_model.PassiveAggressiveClassifier": "Classifier",
-        "alpha_automl.primitives.linear_model.SGDClassifier": "Classifier",
-        "alpha_automl.primitives.svm.LinearSVC": "Classifier",
-        "alpha_automl.primitives.svm.SVC": "Classifier",
-        "alpha_automl.primitives.tree.DecisionTreeClassifier": "Classifier",
-        "alpha_automl.primitives.xgboost.XGBClassifier": "Classifier",
-        "alpha_automl.primitives.lightgbm.LGBMClassifier": "Classifier",
-        "alpha_automl.primitives.cluster.KMeans": "Clusterer",
-        "alpha_automl.primitives.cluster.AgglomerativeClustering": "Clusterer",
-        "alpha_automl.primitives.preprocessing.OrdinalEncoder": "Datetime Encoder",
-        "alpha_automl.primitives.datetime_encoder.CyclicalFeature": "Datetime Encoder",
-        "alpha_automl.primitives.datetime_encoder.Datetime64ExpandEncoder": "Datetime Encoder",
-        "alpha_automl.primitives.datetime_encoder.DummyEncoder": "Datetime Encoder",
-        "alpha_automl.primitives.preprocessing.MaxAbsScaler": "Feature Scaler",
-        "alpha_automl.primitives.preprocessing.RobustScaler": "Feature Scaler",
-        "alpha_automl.primitives.preprocessing.StandardScaler": "Feature Scaler",
-        "alpha_automl.primitives.feature_selection.GenericUnivariateSelect": "Feature Selector",
-        "alpha_automl.primitives.feature_selection.SelectPercentile": "Feature Selector",
-        "alpha_automl.primitives.feature_selection.SelectKBest": "Feature Selector",
-        "alpha_automl.primitives.impute.SimpleImputer": "Imputer",
-        "alpha_automl.primitives.linear_model.ARDRegression": "Regressor",
-        "alpha_automl.primitives.tree.DecisionTreeRegressor": "Regressor",
-        "alpha_automl.primitives.ensemble.ExtraTreesRegressor": "Regressor",
-        "alpha_automl.primitives.gaussian_process.GaussianProcessRegressor": "Regressor",
-        "alpha_automl.primitives.ensemble.GradientBoostingRegressor": "Regressor",
-        "alpha_automl.primitives.neighbors.KNeighborsRegressor": "Regressor",
-        "alpha_automl.primitives.linear_model.Lars": "Regressor",
-        "alpha_automl.primitives.linear_model.Lasso": "Regressor",
-        "alpha_automl.primitives.linear_model.LassoCV": "Regressor",
-        "alpha_automl.primitives.svm.LinearSVR": "Regressor",
-        "alpha_automl.primitives.linear_model.PassiveAggressiveRegressor": "Regressor",
-        "alpha_automl.primitives.ensemble.RandomForestRegressor": "Regressor",
-        "alpha_automl.primitives.linear_model.Ridge": "Regressor",
-        "alpha_automl.primitives.linear_model.SGDRegressor": "Regressor",
-        "alpha_automl.primitives.svm.SVR": "Regressor",
-        "alpha_automl.primitives.linear_model.BayesianRidge": "Regressor",
-        "alpha_automl.primitives.linear_model.ElasticNet": "Regressor",
-        "alpha_automl.primitives.linear_model.HuberRegressor": "Regressor",
-        "alpha_automl.primitives.linear_model.LinearRegression": "Regressor",
-        "alpha_automl.primitives.linear_model.RANSACRegressor": "Regressor",
-        "alpha_automl.primitives.linear_model.RidgeCV": "Regressor",
-        "alpha_automl.primitives.linear_model.TheilSenRegressor": "Regressor",
-        "alpha_automl.primitives.xgboost.XGBRegressor": "Regressor",
-        "alpha_automl.primitives.lightgbm.LGBMRegressor": "Regressor",
-        "alpha_automl.primitives.text.CountVectorizer": "Text Encoder",
-        "alpha_automl.primitives.text.TfidfVectorizer": "Text Encoder",
-        "alpha_automl.primitives.image_encoder.RGB2GrayTransformer": "Image Encoder",
-        "alpha_automl.primitives.image_encoder.HogTransformer": "Image Encoder",
-        "alpha_automl.primitives.compose.ColumnTransformer": "Column Transformer",
-        "alpha_automl.primitives.time_series_forecasting.ArimaEstimator": "Time Series Forecast",
-        "alpha_automl.primitives.time_series_forecasting.DeeparEstimator": "Time Series Forecast",
-        "alpha_automl.primitives.time_series_forecasting.NBEATSEstimator": "Time Series Forecast",
-        "alpha_automl.primitives.time_series_forecasting.NHITSEstimator": "Time Series Forecast",
-        "alpha_automl.primitives.semisupervised_classifier.AutonBox": "Semisupervised Classifier",
-        "alpha_automl.primitives.semi_supervised.SelfTrainingClassifier": "Semisupervised Classifier",
-        "alpha_automl.primitives.semisupervised_classifier.SkLabelSpreading": "Labelpropagation Classifier",
-        "alpha_automl.primitives.semisupervised_classifier.SkLabelPropagation": "Labelpropagation Classifier",
-        "alpha_automl.primitives.classification.CleanLearning": "Data Cleaner",
-        "alpha_automl.primitives.learn.CleanLearning": "Data Cleaner Regression"
+        "CATEGORICAL_ENCODER": [
+            "sklearn.preprocessing.OneHotEncoder"
+        ],
+        "CLASSIFIER": [
+            "sklearn.discriminant_analysis.LinearDiscriminantAnalysis",
+            "sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
+            "sklearn.ensemble.BaggingClassifier",
+            "sklearn.ensemble.ExtraTreesClassifier",
+            "sklearn.ensemble.GradientBoostingClassifier",
+            "sklearn.ensemble.RandomForestClassifier",
+            "sklearn.naive_bayes.BernoulliNB",
+            "sklearn.naive_bayes.GaussianNB",
+            "sklearn.naive_bayes.MultinomialNB",
+            "sklearn.neighbors.KNeighborsClassifier",
+            "sklearn.linear_model.LogisticRegression",
+            "sklearn.linear_model.PassiveAggressiveClassifier",
+            "sklearn.linear_model.SGDClassifier",
+            "sklearn.svm.LinearSVC",
+            "sklearn.svm.SVC",
+            "sklearn.tree.DecisionTreeClassifier",
+            "xgboost.XGBClassifier",
+            "lightgbm.LGBMClassifier"
+        ],
+        "CLUSTERER": [
+            "sklearn.cluster.KMeans",
+            "sklearn.cluster.AgglomerativeClustering"
+        ],
+        "DATETIME_ENCODER": [
+            "sklearn.preprocessing.OrdinalEncoder",
+            "alpha_automl.builtin_primitives.datetime_encoder.CyclicalFeature",
+            "alpha_automl.builtin_primitives.datetime_encoder.Datetime64ExpandEncoder",
+            "alpha_automl.builtin_primitives.datetime_encoder.DummyEncoder"
+        ],
+        "FEATURE_SCALER": [
+            "sklearn.preprocessing.MaxAbsScaler",
+            "sklearn.preprocessing.RobustScaler",
+            "sklearn.preprocessing.StandardScaler"
+        ],
+        "FEATURE_SELECTOR": [
+            "sklearn.feature_selection.GenericUnivariateSelect",
+            "sklearn.feature_selection.SelectPercentile",
+            "sklearn.feature_selection.SelectKBest"
+        ],
+        "IMPUTER": [
+            "sklearn.impute.SimpleImputer"
+        ],
+        "REGRESSOR": [
+            "sklearn.linear_model.ARDRegression",
+            "sklearn.tree.DecisionTreeRegressor",
+            "sklearn.ensemble.ExtraTreesRegressor",
+            "sklearn.gaussian_process.GaussianProcessRegressor",
+            "sklearn.ensemble.GradientBoostingRegressor",
+            "sklearn.neighbors.KNeighborsRegressor",
+            "sklearn.linear_model.Lars",
+            "sklearn.linear_model.Lasso",
+            "sklearn.linear_model.LassoCV",
+            "sklearn.svm.LinearSVR",
+            "sklearn.linear_model.PassiveAggressiveRegressor",
+            "sklearn.ensemble.RandomForestRegressor",
+            "sklearn.linear_model.Ridge",
+            "sklearn.linear_model.SGDRegressor",
+            "sklearn.svm.SVR",
+            "sklearn.linear_model.BayesianRidge",
+            "sklearn.linear_model.ElasticNet",
+            "sklearn.linear_model.HuberRegressor",
+            "sklearn.linear_model.LinearRegression",
+            "sklearn.linear_model.RANSACRegressor",
+            "sklearn.linear_model.RidgeCV",
+            "sklearn.linear_model.TheilSenRegressor",
+            "xgboost.XGBRegressor",
+            "lightgbm.LGBMRegressor"
+        ],
+        "TEXT_ENCODER": [
+            "sklearn.feature_extraction.text.CountVectorizer",
+            "sklearn.feature_extraction.text.TfidfVectorizer"
+        ],
+        "IMAGE_ENCODER": [
+            "alpha_automl.builtin_primitives.image_encoder.RGB2GrayTransformer",
+            "alpha_automl.builtin_primitives.image_encoder.HogTransformer"
+        ],
+        "COLUMN_TRANSFORMER": [
+            "sklearn.compose.ColumnTransformer"
+        ],
+        "TIME_SERIES_FORECAST": [
+            "alpha_automl.builtin_primitives.time_series_forecasting.ArimaEstimator",
+            "alpha_automl.builtin_primitives.time_series_forecasting.DeeparEstimator",
+            "alpha_automl.builtin_primitives.time_series_forecasting.NBEATSEstimator",
+            "alpha_automl.builtin_primitives.time_series_forecasting.NHITSEstimator"
+        ],
+        "SEMISUPERVISED_CLASSIFIER": [
+            "alpha_automl.builtin_primitives.semisupervised_classifier.AutonBox",
+            "sklearn.semi_supervised.SelfTrainingClassifier"
+        ],
+        "LABELPROPAGATION_CLASSIFIER": [
+            "alpha_automl.builtin_primitives.semisupervised_classifier.SkLabelSpreading",
+            "alpha_automl.builtin_primitives.semisupervised_classifier.SkLabelPropagation"
+        ],
+        "DATA_CLEANER": [
+            "cleanlab.classification.CleanLearning"
+        ],
+        "DATA_CLEANER_REGRESSION": [
+            "cleanlab.regression.learn.CleanLearning"
+        ]
     }
 }

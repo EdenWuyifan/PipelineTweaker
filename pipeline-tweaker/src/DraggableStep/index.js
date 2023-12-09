@@ -1,19 +1,20 @@
 import React, {Component} from "react";
 import Draggable from 'react-draggable';
 import "./draggableStep.css";
-import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
-import {AddOns} from "./AddOns";
+import {AddOns, DropDownSelect, UploadCsv} from "./AddOns";
 
 export class DraggableStep extends Component {
     constructor(props) {
         super(props);
+        let step_idx = props.data.step_idx;
         let step = props.data.step;
         let stepName = props.data.stepName;
         let primitives = props.data.primitives;
-        let currPrimitive = step.primitive.python_path;
+        let currPrimitive = step.name;
 
         this.state = {
+            step_idx,
             step,
             stepName,
             primitives,
@@ -21,16 +22,34 @@ export class DraggableStep extends Component {
         };
     };
 
-    handlePrimitive = (option)=> {
-        const currPrimitive = option.value;
-        this.setState({currPrimitive});
+    generateDropDownSelect = ()=> {
+        let primitiveType = this.state.stepName;
+        let dropdownConfig;
+        switch (primitiveType) {
+        case "INPUT":
+            return (
+                <UploadCsv />
+            );
+        case "OUTPUT":
+            return;
+        default:
+            console.log("We are here!!");
+            dropdownConfig = {
+                idx: this.state.step_idx,
+                primitives: this.state.primitives,
+                currPrimitive: this.state.currPrimitive,
+            }
+            return (
+                <DropDownSelect {...dropdownConfig}/>
+            );
+        }
     }
 
     generateAddOns = ()=> {
         let primitiveType = this.state.stepName;
         let addOnConfig;
         switch (primitiveType) {
-        case "Feature Scaler":
+        case "FEATURE_SCALER":
             addOnConfig = {
                 showScore: true,
                 showColumnIndex: true,
@@ -51,34 +70,14 @@ export class DraggableStep extends Component {
         )
     }
 
-    createDropDownOption = (primitives)=> {
-        let options = [];
-        for (let item of primitives) {
-            let splits = item.split(".");
-
-            let pair = {
-                value: item,
-                label: splits[splits.length-1],
-            }
-            options.push(pair);
-        }
-        return options;
-    }
-
     render() {
         const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
-        const dropdownOption = this.createDropDownOption(this.state.primitives);
         return (
             <Draggable handle="strong" {...dragHandlers}>
             <div className="box no-cursor">
                 <strong className="cursor"><div>{this.state.stepName}</div></strong>
                 <form>
-                    <Dropdown 
-                        options={dropdownOption} 
-                        onChange={this.handlePrimitive} 
-                        value={this.state.currPrimitive}
-                        placeholder="Select an option"
-                    />
+                    {this.generateDropDownSelect()}
                 </form>
                 {this.generateAddOns()}
             </div>

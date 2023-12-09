@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, useState } from "react";
 import {DraggableStep} from '../DraggableStep';
 
+window.pipeline = [];
 export class PipelineGrid extends Component {
     constructor(props) {
         super(props);
@@ -10,6 +11,8 @@ export class PipelineGrid extends Component {
 
         let steps = props.data.pipeline.steps;
         let typeList = this.reformatPrimitiveTypes(props.data.primitive_types);
+        
+        SetPipeline(steps);
 
         this.state = {
             pipeline,
@@ -22,24 +25,52 @@ export class PipelineGrid extends Component {
     reformatPrimitiveTypes = (primitiveType)=> {
         const typeList = {};
         for (const key in primitiveType) {
-            let value = primitiveType[key];
-            if (!typeList.hasOwnProperty(value)) {
-                typeList[value] = [];
+            let values = primitiveType[key];
+            for (const i in values) {
+                if (!typeList.hasOwnProperty(values[i])) {
+                    typeList[values[i]] = key;
+                }
             }
-            typeList[value].push(key);
         }
         return typeList;
     }
 
     generateDraggable = (i)=> {
         let step = this.state.steps[i];
-        let stepName = this.state.primitiveType[step.primitive.python_path];
-        let primitives = this.state.typeList[stepName];
+        let stepName = this.state.typeList[step.name];
+        let primitives = this.state.primitiveType[stepName];
+        let params = step.params;
 
-        const draggableConfig = {
+        let draggableConfig = {
+            step_idx: i,
             step: step,
             stepName: stepName,
             primitives: primitives,
+            params: params,
+        }
+        return (<DraggableStep data={draggableConfig}/>);
+    }
+
+    generateInput = ()=> {
+        let stepName = "INPUT";
+        let draggableConfig = {
+            step_idx: -1,
+            step: {},
+            stepName: stepName,
+            primitives: {},
+            params: {},
+        }
+        return (<DraggableStep data={draggableConfig}/>);
+    }
+
+    generateOutput = ()=> {
+        let stepName = "OUTPUT";
+        let draggableConfig = {
+            step_idx: 999,
+            step: {},
+            stepName: stepName,
+            primitives: {},
+            params: {},
         }
         return (<DraggableStep data={draggableConfig}/>);
     }
@@ -49,9 +80,19 @@ export class PipelineGrid extends Component {
         const pipelineId = this.state.pipeline.pipeline_id;
         let stepList = [];
         
+
+        // 1. Generate Input
+        stepList.push(this.generateInput());
+
+        // 2. Generate Steplist
         for (let i = 0; i < this.state.steps.length; i++) {
             stepList.push(this.generateDraggable(i));
         }
+
+
+        // 3. Generate Output
+        stepList.push(this.generateOutput());
+
         return(
             <div className="pipeline-grid">
                 <p>{pipelineId}</p>
@@ -60,4 +101,17 @@ export class PipelineGrid extends Component {
         );
     }
 
+}
+
+
+function SetPipeline(steps) {
+    let tempPipeline = [];
+    for (let i = 0; i < steps.length; i++) {
+        console.log(steps[i]);
+        tempPipeline.push({
+            name: steps[i].name,
+        })
+    }
+    window.pipeline = tempPipeline;
+    console.log(window.pipeline);
 }
