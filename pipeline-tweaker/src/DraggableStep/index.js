@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Draggable from 'react-draggable';
 import "./draggableStep.css";
 import 'react-dropdown/style.css'
-import {AddOns, DropDownSelect, UploadCsv} from "./AddOns";
+import {AddOns, DropDownSelect, UploadCsv, Output} from "./AddOns";
 
 export class DraggableStep extends Component {
     constructor(props) {
@@ -12,6 +12,7 @@ export class DraggableStep extends Component {
         let stepName = props.data.stepName;
         let primitives = props.data.primitives;
         let currPrimitive = step.name;
+        let score = props.data.score;
 
         this.state = {
             step_idx,
@@ -19,6 +20,7 @@ export class DraggableStep extends Component {
             stepName,
             primitives,
             currPrimitive,
+            score,
         };
     };
 
@@ -31,9 +33,10 @@ export class DraggableStep extends Component {
                 <UploadCsv />
             );
         case "OUTPUT":
-            return;
+            return(
+                <Output score={this.state.score}/>
+            );
         default:
-            console.log("We are here!!");
             dropdownConfig = {
                 idx: this.state.step_idx,
                 primitives: this.state.primitives,

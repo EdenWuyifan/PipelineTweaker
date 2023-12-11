@@ -5,11 +5,15 @@ window.pipeline = [];
 export class PipelineGrid extends Component {
     constructor(props) {
         super(props);
-        
         let pipeline = props.data.pipeline;
         let primitiveType = props.data.primitive_types;
-
-        let steps = props.data.pipeline.steps;
+        let score = props.data.score;
+        
+        let steps;
+        if (props.data.pipeline["steps"]) {
+            steps = props.data.pipeline.steps;
+        }
+        
         let typeList = this.reformatPrimitiveTypes(props.data.primitive_types);
         
         SetPipeline(steps);
@@ -17,6 +21,7 @@ export class PipelineGrid extends Component {
         this.state = {
             pipeline,
             primitiveType,
+            score,
             steps,
             typeList,
         };
@@ -47,6 +52,7 @@ export class PipelineGrid extends Component {
             stepName: stepName,
             primitives: primitives,
             params: params,
+            score: 0,
         }
         return (<DraggableStep data={draggableConfig}/>);
     }
@@ -59,6 +65,7 @@ export class PipelineGrid extends Component {
             stepName: stepName,
             primitives: {},
             params: {},
+            score: this.state.score,
         }
         return (<DraggableStep data={draggableConfig}/>);
     }
@@ -71,6 +78,7 @@ export class PipelineGrid extends Component {
             stepName: stepName,
             primitives: {},
             params: {},
+            score: this.state.score,
         }
         return (<DraggableStep data={draggableConfig}/>);
     }
@@ -107,11 +115,9 @@ export class PipelineGrid extends Component {
 function SetPipeline(steps) {
     let tempPipeline = [];
     for (let i = 0; i < steps.length; i++) {
-        console.log(steps[i]);
         tempPipeline.push({
             name: steps[i].name,
         })
     }
     window.pipeline = tempPipeline;
-    console.log(window.pipeline);
 }

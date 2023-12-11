@@ -2,44 +2,49 @@ import React, {useState, useEffect} from "react";
 import logo from './logo.svg';
 import './App.css';
 import { PipelineGrid } from './PipelineGrid';
-import {DraggableStep} from './DraggableStep';
-import testJson from './test_pipeline_meta.json';
+import { isEqual } from "lodash";
 
 function App() {
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState({
+    "pipeline": {
+      "steps": [],
+    },
+    "primitive_types": {},
+    "score": 0,
+  })
+  const [gridKey, setGridKey] = useState(false);
+
+  const toggleGridKey = () => {
+        setGridKey(!gridKey);
+  };
+
 
   useEffect(() => {
     const interval = setInterval(() => {
       fetch("/members").then(
         res => res.json()
       ).then(
-        data => {
-          setData(data)
-          console.log(data)
+        newData => {
+          if (!isEqual(newData, data)) {
+            console.log(newData)
+            console.log(data)
+            setData(newData)
+          }
         }
       )
-    }, 30000);
+    }, 5000);
     return () => clearInterval(interval);
-  }, [])
+  })
 
+  useEffect(() => {
+    toggleGridKey();
+  }, [data]);
+  
   return (
     <div className="App">
-      < PipelineGrid data={testJson} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      
+      <div id="pipeline-grid">
+        < PipelineGrid key={gridKey} data={data} />
+      </div>
     </div>
   );
 }

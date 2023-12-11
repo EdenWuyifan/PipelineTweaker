@@ -125,9 +125,43 @@ export function UploadCsv() {
     };
     
     return (
-        <form style={{ textAlign: "center" }}>
+        <form id="upload-csv" style={{ textAlign: "center" }}>
             <input type={"file"} accept={".csv"} onChange={handleOnChange} />
             <button onClick={(e) => {handleOnSubmit(e);}} >IMPORT CSV</button>
         </form>
+    );
+}
+
+export function Output(score) {
+
+    const customHeader = {
+        headers: {
+            // Authorization: `Bearer ${getLocalStorageToken()}`,
+            "Content-Type": 'multipart/form-data',
+        },
+    };
+
+    const handleOnSubmit = (e) => {
+        e.preventDefault();
+
+        let newPipeline = window.pipeline;
+        let formData = new FormData();
+        formData.append("type", "rescore");
+        newPipeline.forEach((item) => {
+            formData.append('pipeline[]', item.name);
+        });
+
+        axios.post("/rescore", formData, customHeader).then((response) => {
+            console.log(response.status, response.data.token);
+        });
+    };
+
+    return (
+        <div className="output">
+            <p>Score: {score.score}</p>
+            <form id="output" style={{ textAlign: "center" }}>
+                <button onClick={(e) => {handleOnSubmit(e);}} >RECOMPUTE SCORE</button>
+            </form>
+        </div>
     );
 }

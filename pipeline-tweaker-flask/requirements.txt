@@ -1,2 +1,4 @@
-flask
 alpha-automl
+flask
+flask_cors
+scikit-learn
