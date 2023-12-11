@@ -30,7 +30,15 @@ def newtask():
     type = request.form["type"]
     if type == "csv_input":
         csv = request.form["csv"]
-        pipeline, score = new_classification_task(csv)
+        task = request.form["task"]
+        print(task)
+        target_column = request.form["target_column"]
+        
+        if task == "classification":
+            pipeline, score = new_classification_task(csv, target_column)
+        elif task == "regression":
+            # Not ready yet!
+            return
         [
             task_result["pipeline"],
             task_result["primitive_types"],
@@ -44,8 +52,12 @@ def newtask():
 def rescore():
     type = request.form["type"]
     if type == "rescore":
-        new_score = rescore_previous_task(request.form.getlist("pipeline[]"))
+        pipeline_obj, new_score = rescore_previous_task(request.form.getlist("pipeline[]"))
         print(new_score)
+        [
+            task_result["pipeline"],
+            task_result["primitive_types"],
+        ] = export_pipeline_json(pipeline_obj)
         task_result["score"] = new_score
 
     return "ok"

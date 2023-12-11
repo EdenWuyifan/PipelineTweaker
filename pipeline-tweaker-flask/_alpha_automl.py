@@ -16,11 +16,10 @@ X_train = None
 y_train = None
 
 
-def new_classification_task(csv):
+def new_classification_task(csv, target_column="class"):
     csvStringIO = StringIO(csv)
     train_dataset = pd.read_csv(csvStringIO, sep=",")
     logger.critical(train_dataset.columns)
-    target_column = "class"
 
     global X_train, y_train, automl
     X_train = train_dataset.drop(columns=[target_column])
@@ -65,4 +64,4 @@ def rescore_previous_task(pipeline):
     )
     score = np.average(scores)
 
-    return score
+    return pipeline_obj, score
