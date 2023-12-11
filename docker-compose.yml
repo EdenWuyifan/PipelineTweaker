@@ -1,0 +1,32 @@
+version: '1'
+
+services:
+  pipeline-tweaker-flask:
+    build: pipeline-tweaker-flask
+    volumes:
+      - ./pipeline-tweaker-flask:/flask
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - "4455:4455"
+
+  pipeline-tweaker:
+    build: pipeline-tweaker
+    command: ["npm", "start"]
+    volumes:
+      - ./pipeline-tweaker:/react-app
+      - node-modules:/react-app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NODE_OPTIONS=--openssl-legacy-provider
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - pipeline-tweaker-flask
+    links:
+      - pipeline-tweaker-flask
+
+volumes:
+  node-modules:

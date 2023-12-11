@@ -19,6 +19,7 @@ y_train = None
 def new_classification_task(csv):
     csvStringIO = StringIO(csv)
     train_dataset = pd.read_csv(csvStringIO, sep=",")
+    logger.critical(train_dataset.columns)
     target_column = "class"
 
     global X_train, y_train, automl
