@@ -1,4 +1,5 @@
 import json
+
 from alpha_automl.primitive_loader import load_primitives_hierarchy
 
 

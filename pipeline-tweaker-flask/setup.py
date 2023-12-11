@@ -6,9 +6,7 @@ package_name = "pipeline-tweaker-flask"
 
 
 def read_readme():
-    with open(
-        os.path.join(os.path.dirname(__file__), "README.md"), encoding="utf8"
-    ) as file:
+    with open(os.path.join(os.path.dirname(__file__), "README.md"), encoding="utf8") as file:
         return file.read()
 
 

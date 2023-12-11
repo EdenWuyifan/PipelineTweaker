@@ -1,13 +1,13 @@
-import logging
 from io import StringIO
+import logging
 
+from alpha_automl import AutoMLClassifier
+from alpha_automl import AutoMLRegressor
+from alpha_automl.data_profiler import profile_data
+from alpha_automl.pipeline_synthesis.pipeline_builder import BaseBuilder
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import cross_val_score
-from alpha_automl import AutoMLClassifier, AutoMLRegressor
-from alpha_automl.pipeline_synthesis.pipeline_builder import BaseBuilder
-from alpha_automl.data_profiler import profile_data
-
 
 logger = logging.getLogger(__name__)
 

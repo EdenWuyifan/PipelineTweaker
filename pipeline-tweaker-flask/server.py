@@ -1,9 +1,11 @@
 import time
 
-from flask import Flask, request
+from flask import Flask
+from flask import request
 from flask_cors import CORS
 
-from _alpha_automl import new_classification_task, rescore_previous_task
+from _alpha_automl import new_classification_task
+from _alpha_automl import rescore_previous_task
 from _pipeline_preprocess import export_pipeline_json
 
 app = Flask(__name__)
